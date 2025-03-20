@@ -53,6 +53,7 @@
       <HintPath>C:\Windows\Microsoft.NET\assembly\GAC_MSIL\System.Management.Automation\v4.0_3.0.0.0__31bf3856ad364e35\System.Management.Automation.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -133,6 +134,8 @@
     <Compile Include="Meta\Pipeline.cs" />
     <Compile Include="Meta\PsfErrorRecord.cs" />
     <Compile Include="Meta\PSTraceSource.cs" />
+    <Compile Include="Object\ObjectHost.cs" />
+    <Compile Include="Parameter\CertificateParameter.cs" />
     <Compile Include="Parameter\ComputerParameter.cs" />
     <Compile Include="Parameter\ComputerParameterInputType.cs" />
     <Compile Include="Parameter\DateTimeParameter.cs" />
@@ -153,6 +156,7 @@
     <Compile Include="Parameter\PathLiteralLaxParameter.cs" />
     <Compile Include="Parameter\PathLiteralParameter.cs" />
     <Compile Include="Parameter\PathNewFileParameter.cs" />
+    <Compile Include="Parameter\PublicCertificateParameter.cs" />
     <Compile Include="Parameter\SelectAliasParameter.cs" />
     <Compile Include="Parameter\SelectParameter.cs" />
     <Compile Include="Parameter\SelectScriptMethodParameter.cs" />
@@ -174,6 +178,7 @@
     <Compile Include="Runspace\RSState.cs" />
     <Compile Include="Runspace\RSWorker.cs" />
     <Compile Include="Runspace\RSWorkerError.cs" />
+    <Compile Include="Runspace\RSWorkflowRunespaceReport.cs" />
     <Compile Include="Runspace\RunspaceBoundValue.cs" />
     <Compile Include="Runspace\RunspaceBoundValueGeneric.cs" />
     <Compile Include="Runspace\RunspaceContainer.cs" />
@@ -209,6 +214,7 @@
     <Compile Include="Utility\LimitedConcurrentQueue.cs" />
     <Compile Include="Utility\Number.cs" />
     <Compile Include="Utility\PsfException.cs" />
+    <Compile Include="Object\PsfHashtable.cs" />
     <Compile Include="Utility\PsfScriptBlock.cs" />
     <Compile Include="Utility\RegexHelper.cs" />
     <Compile Include="Utility\ScriptBlockItem.cs" />

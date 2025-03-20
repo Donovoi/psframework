@@ -1,8 +1,62 @@
 ﻿# CHANGELOG
 
-## Unreleased
+## 1.12.346 (2024-09-25)
 
-- New: Configuration Validation: guid - ensures only legal guids can be added
+- Fix: MessageLevel Modifiers break Write-PSFMessage
+
+## 1.12.345 (2024-09-17)
+
+> Breaking Change
+
+SerializationTypeConverter changed from using BinaryFormatter to using DataContractSerializer instead, avoiding a critical security vulnerability. This change will _not_ affect anybody not using this component to prevent Deserialized objects when sending objects from formal classes from one PowerShell process to another (e.g. with remoting). Regular PowerShell execution - including remoting - remains unaffected (only without the vulnerability).
+
+Actual impact on modules implementing this component:
+
+- "Failure" always means a fallback to "Deserialized." objects, not actual exceptions.
+- The new version must be deployed on both ends of the communication, otherwise implemented deserialization will fail.
+- The new version will fail to import clixml files exported with the old version
+- All sub-properties must adhere to the serialization rules, not just the top level class. Previously it was possible to have your own class have an "object"-typed property and only the content of that property would be a "deserialized." object, rather the entire item. This no longer works.
+
+This critical security vulnerability superseded the reliability promise, but should fortunately have little impact on almost all existing use of the module.
+
+> Change List
+
+- Sec: Critical security update to the `SerializationTypeConverter` class and PS Object Serialization extension component.
+- Fix: ConvertTo-PSFHashtable - `-Remap` fails when trying to fix the casing on a key. (#641)
+
+## 1.11.343 (2024-07-18)
+
+- Fix: Disable-PSFLoggingProvider - fails with timeout error.
+
+## 1.11.342 (2024-07-18)
+
+- Fix: New-PSFSupportPackage - fails to delete old managed debug dumps
+
+## 1.11.341 (2024-07-08)
+
+- New: Command New-PSFHashtable - returns a PsfHashtable object, a hashtable with default value option.
+- New: Configuration Validation: guid - ensures only legal guids can be added.
+- New: Type PsfHashtable - a hashtable that can have a default value.
+- New: Type Object.ObjectHost - added methods to modify members of a PSObject.
+- New: ParameterClass Certificateparameter - Resolves input as certificate with a private key.
+- New: ParameterClass PublicCertificateparameter - Resolves input as certificate.
+- Upd: New-PSFSupportPackage - Added a parameter to create the debug dump in a managed folder specific to the provided task name.
+- Upd: New-PSFSupportPackage - Added parameter to force-create parent folder of output path.
+- Upd: ConvertTo-PSFHashtable - Added parameter `-AsPsfHashtable` to return a PsfHashtable instead of a default Hashtable.
+- Upd: Runspace Workflows - Worker runspaces are now named "PSF-<Workflow>-<Worker>-<Index>".
+- Upd: Runspace Workflows - Errors that happened during a worker's processing now include the object being processed.
+- Upd: Runspace Workflows - Workflow & Worker object now expose information about their associated runspaces.
+- Upd: Add-PSFRunspaceWorker - Added parameter `-NoOutput` to ignore all worker code output.
+- Upd: Read-PSFRunspaceQueue - Added `-Peek` parameter to allow reading items without removing them from the queue.
+- Upd: Write-PSFRunspaceQueue - Added `-UseCurrent` parameter, to force autodetection of local runspace.
+- Upd: Wait-PSFRunspaceWorkflow - Added option to wait based on how long ago an item was added to a specified queue.
+- Upd: Type Utility.UtilityHost - added SetPrivateField method, using reflection to update a non-public field.
+- Fix: Read-PSFRunspaceQueue - Queue is not cleared when piping result to Select-Object -First X (#621).
+- Fix: Import during JEA session establishment fails - "Cannot bind empty value to Path".
+- Fix: Import-PSFpowerShellDataFile - Safe mode incorrectly reports "File is not safe to execute" on ArrayLiteralAsts inside of a psd1 file.
+- Fix: New-PSFMessageLevelModifier - Is case sensitive when comparing function names.
+- Fix: Runspace Workflows - Do not properly dispose runspaces after processing completes. (#619)
+- Fix: Runspace Workflows - Will add an empty output in a situation where a worker should not produce output in the traditional sense.
 
 ## 1.10.318 (2023-11-10)
 
